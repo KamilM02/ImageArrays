@@ -1,0 +1,77 @@
+//Kamil Mrowiec
+//21308225
+
+import java.util.Arrays;
+public class Image {
+    
+    private int[][] pixels;
+    private int width;
+    private int height;
+
+    public Image(int[][] pixels) {
+        
+        this.pixels = pixels;
+        this.height = pixels.length;
+        this.width = pixels[0].length;
+        
+    }
+
+    public String toString(){
+        return Arrays.deepToString(pixels); //method used in the sample driver provided to us
+    }
+
+    public void flip( boolean horizontal ){
+        if(horizontal == true){
+            for(int row=0; row < height; row++){ //going through rows
+                for(int col=0; col < width/2; col++){ //going through columns, width is divided by two so we dont swap the values twice
+                        
+                    int backwards = width - 1 - col; //this gets the last number in a row, as col goes up, the value further into the middle of the array is picked
+
+                            
+                    int temp = pixels[row][col];
+                    pixels[row][col] = pixels[row][backwards]; //swapping the values
+                    pixels[row][backwards] = temp;
+                }
+            }
+        } else {
+            
+
+            for(int row=0; row < height/2; row++){
+                int lastRow = height - 1 - row; //gets the last row of the array
+
+                int[] temp = pixels[row];
+                pixels[row] = pixels[lastRow]; //swapping the values
+                pixels[lastRow] = temp;
+            }
+        }
+    }
+    public void rotate( boolean clockwise ){
+        
+        int[][] newarr = new int[width][height]; //making a new array with width and height swapped for the rotation
+        
+        if (clockwise == true){
+            for (int row = 0; row < height; row++) { //going thru the rows
+                for (int col = 0; col < width; col++) { //going thru the columns
+                    
+                    newarr[col][height - 1 - row ] = pixels[row][col]; //this gets a spot in the new array and assigns it the right value from the pixels array
+                        
+                }
+            }
+        } else {
+            for (int row = 0; row < height; row++) { 
+                for (int col = 0; col < width; col++) {
+                    
+                    newarr[width - 1 - col][row] = pixels[row][col]; //does the same thing as above but this time we work with width instead of height
+                    
+                }
+            }
+        }
+        
+        this.pixels = newarr; //updates the values for pixels
+        //we also need to update the height and width as they are also new
+        int width2 = height;
+        int height2 = width;
+        this.height = height2;
+        this.width = width2;
+    }
+}
